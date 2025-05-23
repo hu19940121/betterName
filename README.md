@@ -1,71 +1,82 @@
-# bettername README
+# BetterName
 
-This is the README for your extension "bettername". After writing up a brief description, we recommend including the following sections.
+BetterName 是一个 VSCode 插件，用于将中文描述转换为合适的变量名。它利用 DeepSeek AI 模型，帮助开发者快速生成符合编程规范的变量名。
 
-## Features
+## 功能特点
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- 将选中的中文文本转换为编程变量名
+- 支持三种命名风格：
+  - 驼峰命名 (camelCase)：如 `userName`
+  - 蛇形命名 (snake_case)：如 `user_name`
+  - 帕斯卡命名 (PascalCase)：如 `UserName`
+- 简单易用的界面和命令
+- 右键菜单快速访问
+- 默认快捷键绑定
+- 历史记录功能
 
-For example if there is an image subfolder under your extension project workspace:
+## 使用方法
 
-\!\[feature X\]\(images/feature-x.png\)
+1. 在编辑器中选中中文文本（如"用户姓名"）
+2. 使用以下任一方式触发转换：
+   - 按下 `Ctrl+Shift+P`（Windows/Linux）或 `Cmd+Shift+P`（macOS）打开命令面板
+   - 在命令面板中输入 "BetterName" 并选择所需的命名风格
+   - 右键点击选中的文本，在上下文菜单中选择 "BetterName 变量命名"，然后选择命名风格
+   - 使用对应的快捷键直接转换（见下方快捷键列表）
+3. 选中的中文文本将被替换为对应的变量名
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## 命令列表
 
-## Requirements
+- `BetterName: 转换为驼峰命名 (camelCase)`：将选中文本转换为驼峰命名风格
+- `BetterName: 转换为蛇形命名 (snake_case)`：将选中文本转换为蛇形命名风格
+- `BetterName: 转换为帕斯卡命名 (PascalCase)`：将选中文本转换为帕斯卡命名风格
+- `BetterName: 查看历史记录`：查看之前的转换历史记录
+- `BetterName: 清除历史记录`：清除所有历史记录
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## 快捷键
 
-## Extension Settings
+- 驼峰命名：`Ctrl+Alt+C`（Mac: `Cmd+Alt+C`）
+- 蛇形命名：`Ctrl+Alt+S`（Mac: `Cmd+Alt+S`）
+- 帕斯卡命名：`Ctrl+Alt+P`（Mac: `Cmd+Alt+P`）
+- 查看历史记录：`Ctrl+Alt+H`（Mac: `Cmd+Alt+H`）
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## 历史记录功能
 
-For example:
+插件会自动记录您转换过的变量名：
 
-This extension contributes the following settings:
+- 在状态栏的右侧可以看到历史记录按钮
+- 点击历史记录按钮或使用快捷键 `Ctrl+Alt+H` 查看历史记录
+- 从历史记录中选择一项，该变量名将被复制到剪贴板
+- 历史记录会显示原中文文本、变量名和转换时间
+- 默认保存最近 20 条记录，可在设置中修改
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## 配置选项
 
-## Known Issues
+在 VSCode 设置中，可以配置以下选项：
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- `bettername.apiKey`：DeepSeek API 密钥（必填）
+- `bettername.defaultNamingStyle`：默认命名风格（可选，默认为 `camelCase`）
+- `bettername.historyLimit`：历史记录保存数量上限（可选，默认为 20）
 
-## Release Notes
+## 配置步骤
 
-Users appreciate release notes as you update your extension.
+1. 打开 VSCode 设置（文件 > 首选项 > 设置）
+2. 搜索 "BetterName"
+3. 填入您的 DeepSeek API 密钥
+4. 按需调整其他配置项
 
-### 1.0.0
+## 安装要求
 
-Initial release of ...
+- Visual Studio Code 1.100.0 或更高版本
+- DeepSeek API 密钥
 
-### 1.0.1
+## 隐私说明
 
-Fixed issue #.
+本插件会将您选中的中文文本发送到 DeepSeek API 进行处理。请确保您不会发送敏感信息。
 
-### 1.1.0
+## 问题反馈
 
-Added features X, Y, and Z.
+如果您遇到任何问题或有改进建议，请在 GitHub 仓库中提交 issue。
 
----
+## 许可证
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+MIT

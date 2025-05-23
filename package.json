@@ -1,7 +1,7 @@
 {
   "name": "bettername",
   "displayName": "betterName",
-  "description": "better names",
+  "description": "将中文描述转换为合适的变量名",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.100.0"
@@ -11,13 +11,115 @@
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
+  "icon": "resources/icon.png",
   "contributes": {
     "commands": [
       {
-        "command": "bettername.helloWorld",
-        "title": "Hello World"
+        "command": "bettername.convertToCamelCase",
+        "title": "BetterName: 转换为驼峰命名 (camelCase)"
+      },
+      {
+        "command": "bettername.convertToSnakeCase",
+        "title": "BetterName: 转换为蛇形命名 (snake_case)"
+      },
+      {
+        "command": "bettername.convertToPascalCase",
+        "title": "BetterName: 转换为帕斯卡命名 (PascalCase)"
+      },
+      {
+        "command": "bettername.showHistory",
+        "title": "BetterName: 查看历史记录"
+      },
+      {
+        "command": "bettername.clearHistory",
+        "title": "BetterName: 清除历史记录"
       }
-    ]
+    ],
+    "keybindings": [
+      {
+        "command": "bettername.convertToCamelCase",
+        "key": "ctrl+alt+c",
+        "mac": "cmd+alt+c",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "bettername.convertToSnakeCase",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "bettername.convertToPascalCase",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "bettername.showHistory",
+        "key": "ctrl+alt+h",
+        "mac": "cmd+alt+h"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "bettername.submenu",
+          "when": "editorHasSelection"
+        }
+      ],
+      "bettername.submenu": [
+        {
+          "command": "bettername.convertToCamelCase",
+          "when": "editorHasSelection",
+          "group": "1_modification@1"
+        },
+        {
+          "command": "bettername.convertToSnakeCase",
+          "when": "editorHasSelection",
+          "group": "1_modification@2"
+        },
+        {
+          "command": "bettername.convertToPascalCase",
+          "when": "editorHasSelection",
+          "group": "1_modification@3"
+        },
+        {
+          "command": "bettername.showHistory",
+          "group": "2_history@1"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "bettername.submenu",
+        "label": "BetterName 变量命名"
+      }
+    ],
+    "configuration": {
+      "title": "BetterName",
+      "properties": {
+        "bettername.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "DeepSeek API密钥"
+        },
+        "bettername.defaultNamingStyle": {
+          "type": "string",
+          "default": "camelCase",
+          "enum": [
+            "camelCase",
+            "snake_case",
+            "PascalCase"
+          ],
+          "description": "默认命名风格"
+        },
+        "bettername.historyLimit": {
+          "type": "number",
+          "default": 20,
+          "description": "历史记录保存数量上限"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
@@ -28,14 +130,17 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.100.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.100.0",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
-    "typescript": "^5.8.3",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "axios": "^1.9.0"
   }
 }
