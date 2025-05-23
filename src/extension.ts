@@ -1,5 +1,3 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import axios from 'axios';
 
@@ -20,8 +18,7 @@ let extensionContext: vscode.ExtensionContext;
 // 历史记录状态栏项
 let historyStatusBarItem: vscode.StatusBarItem;
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+// 激活插件
 export function activate(context: vscode.ExtensionContext) {
 	console.log('插件 "bettername" 已激活');
 
@@ -79,12 +76,12 @@ async function convertToVariableName(style: NamingStyle) {
 		return;
 	}
 
-	try {
-		// 显示状态消息
-		const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-		statusBarItem.text = `$(sync~spin) 正在转换为${getStyleDisplayName(style)}...`;
-		statusBarItem.show();
+	// 创建状态栏项
+	const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+	statusBarItem.text = `$(sync~spin) 正在转换为${getStyleDisplayName(style)}...`;
+	statusBarItem.show();
 
+	try {
 		// 调用API转换文本
 		const variableName = await convertChineseToVariableName(text, style);
 		
@@ -95,14 +92,15 @@ async function convertToVariableName(style: NamingStyle) {
 
 		// 保存到历史记录
 		saveToHistory(text, variableName, style);
-
-		// 隐藏状态消息
-		statusBarItem.hide();
 		
 		// 显示成功消息
 		vscode.window.showInformationMessage(`已转换为${getStyleDisplayName(style)}: ${variableName}`);
 	} catch (error) {
 		vscode.window.showErrorMessage(`转换失败: ${error instanceof Error ? error.message : String(error)}`);
+	} finally {
+		// 无论成功还是失败，都确保隐藏状态栏项
+		statusBarItem.hide();
+		statusBarItem.dispose();
 	}
 }
 
@@ -140,7 +138,6 @@ async function convertChineseToVariableName(chineseText: string, style: NamingSt
 - "用户登录密码" → "loginPwd"（使用了常见缩写）
 - "系统管理员权限" → "adminAuth"（保留核心概念）
 - "商品库存数量" → "stockCount"（简洁且表达完整）`;
-
 		// 调用DeepSeek API
 		const response = await axios.post(
 			'https://api.deepseek.com/v1/chat/completions',
@@ -269,7 +266,7 @@ function getStyleDisplayName(style: NamingStyle): string {
 	}
 }
 
-// This method is called when your extension is deactivated
+// 插件停用时的处理函数
 export function deactivate() {
 	// 隐藏状态栏项
 	if (historyStatusBarItem) {
