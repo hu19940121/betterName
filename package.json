@@ -3,7 +3,7 @@
   "displayName": "betterName",
   "description": "将中文描述转换为合适的变量名",
   "publisher": "hsh",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.65.0"
   },
